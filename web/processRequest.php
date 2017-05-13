@@ -204,6 +204,23 @@ function ciniki_petadoptions_web_processRequest(&$ciniki, $settings, $business_i
         } else {
             $page['blocks'][] = array('type'=>'content', 'content'=>$nodata);
         }
+
+        if( $status == 10 ) {
+            $strsql = "SELECT id, name, permalink, primary_image_id, synopsis, description, 'yes' AS is_details "
+                . "FROM ciniki_petadoption_animals "
+                . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                . "AND status = '30' "
+                . "";
+            $rc = ciniki_core_dbHashQueryArrayTree($ciniki, $strsql, 'ciniki.petadoptions', array(
+                array('container'=>'animal', 'fname'=>'id', 'fields'=>array('id', 'name', 'permalink', 'image_id'=>'primary_image_id', 'synopsis', 'description', 'is_details')),
+                ));
+            if( $rc['stat'] != 'ok' ) {
+                return $rc;
+            }
+            if( isset($rc['animal']) && count($rc['animal']) > 0 ) {
+                $page['blocks'][] = array('type'=>'imagelist', 'title'=>'Pending Adoptions', 'base_url'=>$args['base_url'], 'list'=>$rc['animal']);
+            }
+        }
     }
 
     return array('stat'=>'ok', 'page'=>$page);

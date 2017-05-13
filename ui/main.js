@@ -11,6 +11,7 @@ function ciniki_petadoptions_main() {
     this.menu.sections = {
         '_tabs':{'label':'', 'type':'paneltabs', 'selected':'10', 'tabs':{
             '10':{'label':'Available', 'fn':'M.ciniki_petadoptions_main.menu.switchTab("10");'},
+            '30':{'label':'Pending', 'fn':'M.ciniki_petadoptions_main.menu.switchTab("30");'},
             '50':{'label':'Adopted', 'fn':'M.ciniki_petadoptions_main.menu.switchTab("50");'},
             }},
         'search':{'label':'', 'type':'livesearchgrid', 'livesearchcols':1,
@@ -93,7 +94,7 @@ function ciniki_petadoptions_main() {
         'general':{'label':'', 'aside':'yes', 'fields':{
             'name':{'label':'Name', 'required':'yes', 'type':'text'},
             'flags':{'label':'Options', 'type':'flags', 'flags':{'1':{'name':'Visible'}}},
-            'status':{'label':'Status', 'type':'toggle', 'toggles':{'10':'Available', '50':'Adopted'}},
+            'status':{'label':'Status', 'type':'toggle', 'toggles':{'10':'Available', '30':'Pending', '50':'Adopted'}},
             'category':{'label':'Category', 'type':'text', 'livesearch':'yes', 'livesearchempty':'yes',
                 'visible':function() { return M.modFlagSet('ciniki.petadoptions', 0x01); },
             },

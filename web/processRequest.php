@@ -100,7 +100,7 @@ function ciniki_petadoptions_web_processRequest(&$ciniki, $settings, $business_i
         $rc = ciniki_petadoptions_animalLoad($ciniki, $business_id, $animal_permalink, array('images'=>'yes'));
         if( $rc['stat'] != 'ok' ) {
             if( $rc['stat'] == 'noexist' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.petadoptions.12', 'msg'=>"We're sorry, but we couldn't find the animal you're looking for."));
+                return array('stat'=>'404', 'err'=>array('code'=>'ciniki.petadoptions.12', 'msg'=>"We're sorry, but we couldn't find the animal you're looking for."));
             }
             return $rc;
         }

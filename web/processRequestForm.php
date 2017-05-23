@@ -198,6 +198,7 @@ function ciniki_petadoptions_web_processRequestForm(&$ciniki, $settings, $busine
             }
             $ciniki['emailqueue'][] = array('mail_id'=>$rc['id'], 'business_id'=>$business_id);
         }
+        $display = 'submitted';
     }
 
     //

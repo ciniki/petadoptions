@@ -41,8 +41,11 @@ function ciniki_petadoptions_hooks_webOptions(&$ciniki, $business_id, $args) {
 
     $poptions = array();
 
+    $foptions = array();
+
     $pages['ciniki.petadoptions.available'] = array('name'=>'Pet Available', 'options'=>$poptions);
     $pages['ciniki.petadoptions.adopted'] = array('name'=>'Pets Adopted', 'options'=>$poptions);
+    $pages['ciniki.petadoptions.form'] = array('name'=>'Application Form', 'options'=>$foptions);
 
     return array('stat'=>'ok', 'pages'=>$pages);
 }

@@ -81,7 +81,16 @@ function ciniki_petadoptions_web_processRequestForm(&$ciniki, $settings, $busine
     foreach($form['sections'] as $sid => $section) {
         foreach($section['fields'] as $fid => $field) {
 
-            if( isset($_POST[$fid]) ) { 
+            if( $field['type'] == 'checkboxes' ) {    
+                $c = 0;
+                $values[$fid] = array();
+                foreach($field['options'] as $option) {
+                    if( isset($_POST[$fid . '_' . $c]) ) {
+                        $values[$fid][] = $option;
+                    }
+                    $c++;
+                }
+            } elseif( isset($_POST[$fid]) ) { 
                 $values[$fid] = $_POST[$fid];
             }
 
@@ -115,6 +124,10 @@ function ciniki_petadoptions_web_processRequestForm(&$ciniki, $settings, $busine
                         $form['sections'][$sid]['fields'][$fid]['err_msg'] = 'This field is required';
                         $cur_section = $sid;
                     }
+                    elseif( $field['type'] == 'checkboxes' && (!isset($values[$fid]) || count($values[$fid]) == 0) ) {
+                        $form['sections'][$sid]['fields'][$fid]['err_msg'] = 'This field is required';
+                        $cur_section = $sid;
+                    }
                 }
             }
         }
@@ -137,14 +150,25 @@ function ciniki_petadoptions_web_processRequestForm(&$ciniki, $settings, $busine
                     if( isset($field['label']) && $field['label'] != '' ) {
                         $html_content .= "<tr bgcolor='#EAF2FA'><td colspan='2'>" . $field['label'] . "</td></tr>";
                     }
-                    $html_content .= "<tr><td width='20'>&nbsp;</td><td>" . (isset($values[$fid]) ? $values[$fid] : '') . "</td></tr>";
-                    if( $field['type'] != 'textarea' ) {
+                    $html_content .= "<tr><td width='20'>&nbsp;</td><td>";
+                    if( $field['type'] == 'checkboxes' ) {
+                        if( isset($values[$fid]) ) {
+                            foreach($values[$fid] as $v) {
+                                $html_content .= $v . "<br/>";
+                                $text_content .= $v . "\n";
+                            }
+                        }
+                        $text_content .= "\n";
+                    } elseif( $field['type'] != 'textarea' ) {
+                        $html_content .= (isset($values[$fid]) ? $values[$fid] : '');
                         $text_content .= $field['label'] . ": ";
                         $text_content .= (isset($values[$fid]) ? $values[$fid] : '') . "\n";
                     } else {
+                        $html_content .= (isset($values[$fid]) ? $values[$fid] : '');
                         $text_content .= $field['label'] . ":\n";
                         $text_content .= (isset($values[$fid]) ? $values[$fid] : '') . "\n\n";
                     }
+                    $html_content .= "</td></tr>";
                 }
             }
         }

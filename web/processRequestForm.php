@@ -189,7 +189,7 @@ function ciniki_petadoptions_web_processRequestForm(&$ciniki, $settings, $busine
             $rc = ciniki_mail_hooks_addMessage($ciniki, $business_id, array(
                 'customer_email'=>$owner['email'],
                 'customer_name'=>$owner['firstname'] . ' ' . $owner['lastname'],
-                'subject'=>'New Adoption Application',
+                'subject'=>'New Adoption Application for ' . $values['animal_name'],
                 'html_content'=>$html_content,
                 'text_content'=>$text_content,
                 ));
@@ -205,7 +205,7 @@ function ciniki_petadoptions_web_processRequestForm(&$ciniki, $settings, $busine
     // Display the form
     //
     if( $display == 'submitted' ) {
-        $page['blocks'][] = array('type'=>'content', 'content'=>"Thank you for the form submission, we will be in touch.");
+        $page['blocks'][] = array('type'=>'content', 'content'=>"Thank you for your adoption application, we will be in touch.");
     } else {
         $page['blocks'][] = array('type'=>'sectionedform', 
             'base_url'=>$args['base_url'], 

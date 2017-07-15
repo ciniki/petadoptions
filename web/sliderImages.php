@@ -28,6 +28,7 @@ function ciniki_petadoptions_web_sliderImages(&$ciniki, $settings, $business_id,
         . "FROM ciniki_petadoption_animals AS a "
         . "WHERE a.status < 50 "
         . "AND a.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "AND (a.flags&0x01) = 0x01 "
         . "";
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryArrayTree');
     $rc = ciniki_core_dbHashQueryArrayTree($ciniki, $strsql, 'ciniki.web', array(

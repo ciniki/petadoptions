@@ -192,6 +192,7 @@ function ciniki_petadoptions_web_processRequest(&$ciniki, $settings, $business_i
             . "FROM ciniki_petadoption_animals "
             . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
             . "AND status = '" . ciniki_core_dbQuote($ciniki, $status) . "' "
+            . "AND (flags&0x01) = 0x01 "
             . "";
         $rc = ciniki_core_dbHashQueryArrayTree($ciniki, $strsql, 'ciniki.petadoptions', array(
             array('container'=>'animal', 'fname'=>'id', 'fields'=>array('id', 'name', 'permalink', 'image_id'=>'primary_image_id', 'synopsis', 'description', 'is_details')),

@@ -8,7 +8,7 @@
 // ---------
 // ciniki:
 // settings:        The web settings structure.
-// business_id:     The ID of the business to get food market request for.
+// tnid:     The ID of the tenant to get food market request for.
 //
 // args:            The possible arguments for posts
 //
@@ -16,12 +16,12 @@
 // Returns
 // -------
 //
-function ciniki_petadoptions_web_processRequest(&$ciniki, $settings, $business_id, $args) {
+function ciniki_petadoptions_web_processRequest(&$ciniki, $settings, $tnid, $args) {
 
     //
     // Check to make sure the module is enabled
     //
-    if( !isset($ciniki['business']['modules']['ciniki.petadoptions']) ) {
+    if( !isset($ciniki['tenant']['modules']['ciniki.petadoptions']) ) {
         return array('stat'=>'404', 'err'=>array('code'=>'ciniki.petadoptions.11', 'msg'=>"I'm sorry, the page you requested does not exist."));
     }
 
@@ -30,7 +30,7 @@ function ciniki_petadoptions_web_processRequest(&$ciniki, $settings, $business_i
     //
     if( isset($args['module_page']) && $args['module_page'] == 'ciniki.petadoptions.form' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'petadoptions', 'web', 'processRequestForm');
-        return ciniki_petadoptions_web_processRequestForm($ciniki, $settings, $business_id, $args);
+        return ciniki_petadoptions_web_processRequestForm($ciniki, $settings, $tnid, $args);
     }
 
     //
@@ -97,7 +97,7 @@ function ciniki_petadoptions_web_processRequest(&$ciniki, $settings, $business_i
         // Load the animal details
         //
         ciniki_core_loadMethod($ciniki, 'ciniki', 'petadoptions', 'private', 'animalLoad');
-        $rc = ciniki_petadoptions_animalLoad($ciniki, $business_id, $animal_permalink, array('images'=>'yes'));
+        $rc = ciniki_petadoptions_animalLoad($ciniki, $tnid, $animal_permalink, array('images'=>'yes'));
         if( $rc['stat'] != 'ok' ) {
             if( $rc['stat'] == 'noexist' ) {
                 return array('stat'=>'404', 'err'=>array('code'=>'ciniki.petadoptions.12', 'msg'=>"We're sorry, but we couldn't find the animal you're looking for."));
@@ -190,7 +190,7 @@ function ciniki_petadoptions_web_processRequest(&$ciniki, $settings, $business_i
     if( $display == 'list' ) {
         $strsql = "SELECT id, name, permalink, primary_image_id, synopsis, description, 'yes' AS is_details "
             . "FROM ciniki_petadoption_animals "
-            . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+            . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "AND status = '" . ciniki_core_dbQuote($ciniki, $status) . "' "
             . "AND (flags&0x01) = 0x01 "
             . "";
@@ -209,7 +209,7 @@ function ciniki_petadoptions_web_processRequest(&$ciniki, $settings, $business_i
         if( $status == 10 ) {
             $strsql = "SELECT id, name, permalink, primary_image_id, synopsis, description, 'yes' AS is_details "
                 . "FROM ciniki_petadoption_animals "
-                . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                 . "AND status = '30' "
                 . "";
             $rc = ciniki_core_dbHashQueryArrayTree($ciniki, $strsql, 'ciniki.petadoptions', array(

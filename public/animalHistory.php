@@ -10,7 +10,7 @@
 // ---------
 // api_key:
 // auth_token:
-// business_id:         The ID of the business to get the details for.
+// tnid:         The ID of the tenant to get the details for.
 // animal_id:          The ID of the animals to get the history for.
 // field:                   The field to get the history for.
 //
@@ -23,7 +23,7 @@ function ciniki_petadoptions_animalHistory($ciniki) {
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
-        'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'),
+        'tnid'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Tenant'),
         'animal_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Animals'),
         'field'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'field'),
         ));
@@ -33,15 +33,15 @@ function ciniki_petadoptions_animalHistory($ciniki) {
     $args = $rc['args'];
 
     //
-    // Check access to business_id as owner, or sys admin
+    // Check access to tnid as owner, or sys admin
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'petadoptions', 'private', 'checkAccess');
-    $rc = ciniki_petadoptions_checkAccess($ciniki, $args['business_id'], 'ciniki.petadoptions.animalHistory');
+    $rc = ciniki_petadoptions_checkAccess($ciniki, $args['tnid'], 'ciniki.petadoptions.animalHistory');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbGetModuleHistory');
-    return ciniki_core_dbGetModuleHistory($ciniki, 'ciniki.petadoptions', 'ciniki_petadoptions_history', $args['business_id'], 'ciniki_petadoption_animals', $args['animal_id'], $args['field']);
+    return ciniki_core_dbGetModuleHistory($ciniki, 'ciniki.petadoptions', 'ciniki_petadoptions_history', $args['tnid'], 'ciniki_petadoption_animals', $args['animal_id'], $args['field']);
 }
 ?>

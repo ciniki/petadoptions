@@ -27,7 +27,7 @@ function ciniki_petadoptions_main() {
     }
     this.menu.liveSearchCb = function(s, i, v) {
         if( s == 'search' && v != '' ) {
-            M.api.getJSONBgCb('ciniki.petadoptions.animalSearch', {'business_id':M.curBusinessID, 'start_needle':v, 'limit':'25'}, function(rsp) {
+            M.api.getJSONBgCb('ciniki.petadoptions.animalSearch', {'tnid':M.curTenantID, 'start_needle':v, 'limit':'25'}, function(rsp) {
                 M.ciniki_petadoptions_main.menu.liveSearchShow('search',null,M.gE(M.ciniki_petadoptions_main.menu.panelUID + '_' + s), rsp.animals);
                 });
         }
@@ -56,7 +56,7 @@ function ciniki_petadoptions_main() {
     }
     this.menu.noData = function(s) { return this.sections[s].noData; }
     this.menu.open = function(cb) {
-        M.api.getJSONCb('ciniki.petadoptions.animalList', {'business_id':M.curBusinessID, 'status':this.sections._tabs.selected}, function(rsp) {
+        M.api.getJSONCb('ciniki.petadoptions.animalList', {'tnid':M.curTenantID, 'status':this.sections._tabs.selected}, function(rsp) {
             if( rsp.stat != 'ok' ) {
                 M.api.err(rsp);
                 return false;
@@ -124,7 +124,7 @@ function ciniki_petadoptions_main() {
             }},
         };
     this.animal.liveSearchCb = function(s, i, v) {
-        M.api.getJSONBgCb('ciniki.petadoptions.animalFieldSearch', {'business_id':M.curBusinessID, 'start_needle':v, 'limit':'25', 'field':i}, function(rsp) {
+        M.api.getJSONBgCb('ciniki.petadoptions.animalFieldSearch', {'tnid':M.curTenantID, 'start_needle':v, 'limit':'25', 'field':i}, function(rsp) {
             M.ciniki_petadoptions_main.animal.liveSearchShow(s,i,M.gE(M.ciniki_petadoptions_main.animal.panelUID + '_' + s), rsp.results);
             });
     }
@@ -140,12 +140,12 @@ function ciniki_petadoptions_main() {
     }
     this.animal.fieldValue = function(s, i, d) { return this.data[i]; }
     this.animal.fieldHistoryArgs = function(s, i) {
-        return {'method':'ciniki.petadoptions.animalHistory', 'args':{'business_id':M.curBusinessID, 'animal_id':this.animal_id, 'field':i}};
+        return {'method':'ciniki.petadoptions.animalHistory', 'args':{'tnid':M.curTenantID, 'animal_id':this.animal_id, 'field':i}};
     }
     this.animal.addDropImage = function(iid) {
         if( this.animal_id == 0 ) {
             var c = this.serializeForm('yes');
-            M.api.postJSONCb('ciniki.petadoptions.animalAdd', {'business_id':M.curBusinessID, 'animal_id':this.animal_id, 'image_id':iid}, c, function(rsp) {
+            M.api.postJSONCb('ciniki.petadoptions.animalAdd', {'tnid':M.curTenantID, 'animal_id':this.animal_id, 'image_id':iid}, c, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
                         return false;
@@ -154,7 +154,7 @@ function ciniki_petadoptions_main() {
                     M.ciniki_petadoptions_main.animal.refreshImages();
                 });
         } else {
-            M.api.getJSONCb('ciniki.petadoptions.imageAdd', {'business_id':M.curBusinessID, 'image_id':iid, 'name':'', 'animal_id':this.animal_id, 'flags':1}, function(rsp) {
+            M.api.getJSONCb('ciniki.petadoptions.imageAdd', {'tnid':M.curTenantID, 'image_id':iid, 'name':'', 'animal_id':this.animal_id, 'flags':1}, function(rsp) {
                 if( rsp.stat != 'ok' ) {
                     M.api.err(rsp);
                     return false;
@@ -169,7 +169,7 @@ function ciniki_petadoptions_main() {
     };
     this.animal.refreshImages = function() {
         if( M.ciniki_petadoptions_main.animal.animal_id > 0 ) {
-            M.api.getJSONCb('ciniki.petadoptions.animalGet', {'business_id':M.curBusinessID, 'animal_id':this.animal_id, 'images':'yes'}, function(rsp) {
+            M.api.getJSONCb('ciniki.petadoptions.animalGet', {'tnid':M.curTenantID, 'animal_id':this.animal_id, 'images':'yes'}, function(rsp) {
                 if( rsp.stat != 'ok' ) {
                     M.api.err(rsp);
                     return false;
@@ -184,7 +184,7 @@ function ciniki_petadoptions_main() {
     this.animal.open = function(cb, aid, list) {
         if( aid != null ) { this.animal_id = aid; }
         if( list != null ) { this.nplist = list; }
-        M.api.getJSONCb('ciniki.petadoptions.animalGet', {'business_id':M.curBusinessID, 'animal_id':this.animal_id, 'images':'yes'}, function(rsp) {
+        M.api.getJSONCb('ciniki.petadoptions.animalGet', {'tnid':M.curTenantID, 'animal_id':this.animal_id, 'images':'yes'}, function(rsp) {
             if( rsp.stat != 'ok' ) {
                 M.api.err(rsp);
                 return false;
@@ -201,7 +201,7 @@ function ciniki_petadoptions_main() {
         if( this.animal_id > 0 ) {
             var c = this.serializeForm('no');
             if( c != '' ) {
-                M.api.postJSONCb('ciniki.petadoptions.animalUpdate', {'business_id':M.curBusinessID, 'animal_id':this.animal_id}, c, function(rsp) {
+                M.api.postJSONCb('ciniki.petadoptions.animalUpdate', {'tnid':M.curTenantID, 'animal_id':this.animal_id}, c, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
                         return false;
@@ -213,7 +213,7 @@ function ciniki_petadoptions_main() {
             }
         } else {
             var c = this.serializeForm('yes');
-            M.api.postJSONCb('ciniki.petadoptions.animalAdd', {'business_id':M.curBusinessID}, c, function(rsp) {
+            M.api.postJSONCb('ciniki.petadoptions.animalAdd', {'tnid':M.curTenantID}, c, function(rsp) {
                 if( rsp.stat != 'ok' ) {
                     M.api.err(rsp);
                     return false;
@@ -225,7 +225,7 @@ function ciniki_petadoptions_main() {
     }
     this.animal.remove = function() {
         if( confirm('Are you sure you want to remove animal?') ) {
-            M.api.getJSONCb('ciniki.petadoptions.animalDelete', {'business_id':M.curBusinessID, 'animal_id':this.animal_id}, function(rsp) {
+            M.api.getJSONCb('ciniki.petadoptions.animalDelete', {'tnid':M.curTenantID, 'animal_id':this.animal_id}, function(rsp) {
                 if( rsp.stat != 'ok' ) {
                     M.api.err(rsp);
                     return false;
@@ -281,7 +281,7 @@ function ciniki_petadoptions_main() {
         return ''; 
     };
     this.image.fieldHistoryArgs = function(s, i) {
-        return {'method':'ciniki.petadoptions.imageHistory', 'args':{'business_id':M.curBusinessID, 
+        return {'method':'ciniki.petadoptions.imageHistory', 'args':{'tnid':M.curTenantID, 
             'animal_image_id':this.animal_image_id, 'field':i}};
     };
     this.image.addDropImage = function(iid) {
@@ -292,7 +292,7 @@ function ciniki_petadoptions_main() {
         if( iid != null ) { this.animal_image_id = iid; }
         if( aid != null ) { this.animal_id = aid; }
         if( this.animal_image_id > 0 ) {
-            M.api.getJSONCb('ciniki.petadoptions.imageGet', {'business_id':M.curBusinessID, 'animal_image_id':this.animal_image_id}, function(rsp) {
+            M.api.getJSONCb('ciniki.petadoptions.imageGet', {'tnid':M.curTenantID, 'animal_image_id':this.animal_image_id}, function(rsp) {
                 if( rsp.stat != 'ok' ) {
                     M.api.err(rsp);
                     return false;
@@ -313,7 +313,7 @@ function ciniki_petadoptions_main() {
         if( this.animal_image_id > 0 ) {
             var c = this.serializeFormData('no');
             if( c != '' ) {
-                M.api.postJSONFormData('ciniki.petadoptions.imageUpdate', {'business_id':M.curBusinessID, 'animal_image_id':this.animal_image_id}, c, function(rsp) {
+                M.api.postJSONFormData('ciniki.petadoptions.imageUpdate', {'tnid':M.curTenantID, 'animal_image_id':this.animal_image_id}, c, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
                         return false;
@@ -326,7 +326,7 @@ function ciniki_petadoptions_main() {
             }
         } else {
             var c = this.serializeFormData('yes');
-            var rsp = M.api.postJSONFormData('ciniki.petadoptions.imageAdd', {'business_id':M.curBusinessID, 'animal_id':this.animal_id}, c, function(rsp) {
+            var rsp = M.api.postJSONFormData('ciniki.petadoptions.imageAdd', {'tnid':M.curTenantID, 'animal_id':this.animal_id}, c, function(rsp) {
                 if( rsp.stat != 'ok' ) {
                     M.api.err(rsp);
                     return false;
@@ -338,7 +338,7 @@ function ciniki_petadoptions_main() {
     };
     this.image.remove = function() {
         if( confirm('Are you sure you want to delete this image?') ) {
-            M.api.getJSONCb('ciniki.petadoptions.imageDelete', {'business_id':M.curBusinessID, 'animal_image_id':this.animal_image_id}, function(rsp) {
+            M.api.getJSONCb('ciniki.petadoptions.imageDelete', {'tnid':M.curTenantID, 'animal_image_id':this.animal_image_id}, function(rsp) {
                 if( rsp.stat != 'ok' ) {
                     M.api.err(rsp);
                     return false;

@@ -8,13 +8,13 @@
 // ---------
 // api_key:
 // auth_token:
-// business_id:         The ID of the business the animal is attached to.
+// tnid:         The ID of the tenant the animal is attached to.
 // animal_id:           The ID of the animal to get the details for.
 //
 // Returns
 // -------
 //
-function ciniki_petadoptions_animalLoad($ciniki, $business_id, $animal_id, $args) {
+function ciniki_petadoptions_animalLoad($ciniki, $tnid, $animal_id, $args) {
 
     $strsql = "SELECT ciniki_petadoption_animals.id, "
         . "ciniki_petadoption_animals.name, "
@@ -32,7 +32,7 @@ function ciniki_petadoptions_animalLoad($ciniki, $business_id, $animal_id, $args
         . "ciniki_petadoption_animals.synopsis, "
         . "ciniki_petadoption_animals.description "
         . "FROM ciniki_petadoption_animals "
-        . "WHERE ciniki_petadoption_animals.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "WHERE ciniki_petadoption_animals.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "";
     if( !is_numeric($animal_id) ) {
         $strsql .= "AND ciniki_petadoption_animals.permalink = '" . ciniki_core_dbQuote($ciniki, $animal_id) . "' ";
@@ -56,7 +56,7 @@ function ciniki_petadoptions_animalLoad($ciniki, $business_id, $animal_id, $args
         $strsql = "SELECT id, title, permalink, flags, image_id, description "
             . "FROM ciniki_petadoption_images "
             . "WHERE animal_id = '" . ciniki_core_dbQuote($ciniki, $animal['id']) . "' "
-            . "AND business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+            . "AND tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "AND (flags&0x01) = 0x01 "
             . "";
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryArrayTree');

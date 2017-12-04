@@ -8,7 +8,7 @@
 // ---------
 // ciniki:
 // settings:        The web settings structure.
-// business_id:     The ID of the business to get food market request for.
+// tnid:     The ID of the tenant to get food market request for.
 //
 // args:            The possible arguments for posts
 //
@@ -16,12 +16,12 @@
 // Returns
 // -------
 //
-function ciniki_petadoptions_web_processRequestForm(&$ciniki, $settings, $business_id, $args) {
+function ciniki_petadoptions_web_processRequestForm(&$ciniki, $settings, $tnid, $args) {
 
     //
     // Check to make sure the module is enabled
     //
-    if( !isset($ciniki['business']['modules']['ciniki.petadoptions']) ) {
+    if( !isset($ciniki['tenant']['modules']['ciniki.petadoptions']) ) {
         return array('stat'=>'404', 'err'=>array('code'=>'ciniki.petadoptions.22', 'msg'=>"I'm sorry, the page you requested does not exist."));
     }
 
@@ -38,10 +38,10 @@ function ciniki_petadoptions_web_processRequestForm(&$ciniki, $settings, $busine
     $ciniki['response']['head']['og']['url'] = $args['domain_base_url'];
 
     //
-    // Load business settings
+    // Load tenant settings
     //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'intlSettings');
-    $rc = ciniki_businesses_intlSettings($ciniki, $business_id);
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'intlSettings');
+    $rc = ciniki_tenants_intlSettings($ciniki, $tnid);
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -51,7 +51,7 @@ function ciniki_petadoptions_web_processRequestForm(&$ciniki, $settings, $busine
     // Load the form
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'petadoptions', 'forms', 'generic');
-    $rc = ciniki_petadoptions_forms_generic($ciniki, $business_id);
+    $rc = ciniki_petadoptions_forms_generic($ciniki, $tnid);
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -175,18 +175,18 @@ function ciniki_petadoptions_web_processRequestForm(&$ciniki, $settings, $busine
         $html_content .= "</tbody></table>";
 
         //
-        // Get the business owners
+        // Get the tenant owners
         //
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'hooks', 'businessOwners');
-        $rc = ciniki_businesses_hooks_businessOwners($ciniki, $business_id, array());
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'hooks', 'tenantOwners');
+        $rc = ciniki_tenants_hooks_tenantOwners($ciniki, $tnid, array());
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.mail.16', 'msg'=>'Unable to get business owners', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.mail.16', 'msg'=>'Unable to get tenant owners', 'err'=>$rc['err']));
         }
         $owners = $rc['users'];
 
         foreach($owners as $user_id => $owner) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'mail', 'hooks', 'addMessage');
-            $rc = ciniki_mail_hooks_addMessage($ciniki, $business_id, array(
+            $rc = ciniki_mail_hooks_addMessage($ciniki, $tnid, array(
                 'customer_email'=>$owner['email'],
                 'customer_name'=>$owner['firstname'] . ' ' . $owner['lastname'],
                 'subject'=>'New Adoption Application for ' . $values['animal_name'],
@@ -196,7 +196,7 @@ function ciniki_petadoptions_web_processRequestForm(&$ciniki, $settings, $busine
             if( $rc['stat'] != 'ok' ) {
                 return $rc;
             }
-            $ciniki['emailqueue'][] = array('mail_id'=>$rc['id'], 'business_id'=>$business_id);
+            $ciniki['emailqueue'][] = array('mail_id'=>$rc['id'], 'tnid'=>$tnid);
         }
         $display = 'submitted';
     }

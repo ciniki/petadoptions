@@ -7,12 +7,12 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:
+// tnid:
 //
 // Returns
 // -------
 //
-function ciniki_petadoptions_forms_generic($ciniki, $business_id) {
+function ciniki_petadoptions_forms_generic($ciniki, $tnid) {
     
     $form = array(
         'sections' => array(

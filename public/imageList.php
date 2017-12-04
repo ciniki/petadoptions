@@ -2,13 +2,13 @@
 //
 // Description
 // -----------
-// This method will return the list of Images for a business.
+// This method will return the list of Images for a tenant.
 //
 // Arguments
 // ---------
 // api_key:
 // auth_token:
-// business_id:        The ID of the business to get Image for.
+// tnid:        The ID of the tenant to get Image for.
 //
 // Returns
 // -------
@@ -19,7 +19,7 @@ function ciniki_petadoptions_imageList($ciniki) {
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
-        'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'),
+        'tnid'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Tenant'),
         ));
     if( $rc['stat'] != 'ok' ) {
         return $rc;
@@ -27,10 +27,10 @@ function ciniki_petadoptions_imageList($ciniki) {
     $args = $rc['args'];
 
     //
-    // Check access to business_id as owner, or sys admin.
+    // Check access to tnid as owner, or sys admin.
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'petadoptions', 'private', 'checkAccess');
-    $rc = ciniki_petadoptions_checkAccess($ciniki, $args['business_id'], 'ciniki.petadoptions.imageList');
+    $rc = ciniki_petadoptions_checkAccess($ciniki, $args['tnid'], 'ciniki.petadoptions.imageList');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -44,7 +44,7 @@ function ciniki_petadoptions_imageList($ciniki) {
         . "ciniki_petadoption_images.permalink, "
         . "ciniki_petadoption_images.flags "
         . "FROM ciniki_petadoption_images "
-        . "WHERE ciniki_petadoption_images.business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
+        . "WHERE ciniki_petadoption_images.tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
         . "";
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryArrayTree');
     $rc = ciniki_core_dbHashQueryArrayTree($ciniki, $strsql, 'ciniki.petadoptions', array(

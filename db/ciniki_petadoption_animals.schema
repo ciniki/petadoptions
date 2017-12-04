@@ -2,14 +2,14 @@
 # Description
 # -----------
 # The petadoptions table stores information about petadoptions that are related
-# to the business, or the business will be attending.
+# to the tenant, or the tenant will be attending.
 # This module was developed to support artists shows and petadoptions.
 #
 # Fields
 # ------
 # id:                   The ID assigned to the pet adoption.
 # uuid:                 The Universal Unique ID.
-# business_id:          The business the pet adoption is attached to.
+# tnid:                 The tenant the pet adoption is attached to.
 #
 # name:                 The name for the pet adoption.
 # permalink:            The permalink for the URL to open the pet adoption.
@@ -41,7 +41,7 @@
 create table ciniki_petadoption_animals (
     id int not null auto_increment,
     uuid char(36) not null,
-    business_id int not null,
+    tnid int not null,
     name varchar(150) not null,
     permalink varchar(150) not null,
     flags tinyint unsigned not null,
@@ -60,6 +60,6 @@ create table ciniki_petadoption_animals (
     last_updated datetime not null,
     primary key (id),
     unique index (uuid),
-    index (business_id, name),
-    index business_uuid (business_id, uuid, last_updated)
+    index (tnid, name),
+    index tenant_uuid (tnid, uuid, last_updated)
 ) ENGINE='InnoDB', COMMENT='v1.01';

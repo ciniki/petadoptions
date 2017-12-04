@@ -2,13 +2,13 @@
 //
 // Description
 // -----------
-// This method will return the list of Animalss for a business.
+// This method will return the list of Animalss for a tenant.
 //
 // Arguments
 // ---------
 // api_key:
 // auth_token:
-// business_id:        The ID of the business to get Animals for.
+// tnid:        The ID of the tenant to get Animals for.
 //
 // Returns
 // -------
@@ -19,7 +19,7 @@ function ciniki_petadoptions_animalList($ciniki) {
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
-        'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'),
+        'tnid'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Tenant'),
         'status'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Status'),
         ));
     if( $rc['stat'] != 'ok' ) {
@@ -28,10 +28,10 @@ function ciniki_petadoptions_animalList($ciniki) {
     $args = $rc['args'];
 
     //
-    // Check access to business_id as owner, or sys admin.
+    // Check access to tnid as owner, or sys admin.
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'petadoptions', 'private', 'checkAccess');
-    $rc = ciniki_petadoptions_checkAccess($ciniki, $args['business_id'], 'ciniki.petadoptions.animalList');
+    $rc = ciniki_petadoptions_checkAccess($ciniki, $args['tnid'], 'ciniki.petadoptions.animalList');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -53,7 +53,7 @@ function ciniki_petadoptions_animalList($ciniki) {
         . "ciniki_petadoption_animals.size, "
         . "ciniki_petadoption_animals.location "
         . "FROM ciniki_petadoption_animals "
-        . "WHERE ciniki_petadoption_animals.business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
+        . "WHERE ciniki_petadoption_animals.tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
         . (isset($args['status']) ? " AND ciniki_petadoption_animals.status = '" . ciniki_core_dbQuote($ciniki, $args['status']) . "' " : '')
         . "ORDER BY name "
         . "";

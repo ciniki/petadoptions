@@ -7,13 +7,13 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:
+// tnid:
 // args: The arguments for the hook
 //
 // Returns
 // -------
 //
-function ciniki_petadoptions_hooks_uiSettings(&$ciniki, $business_id, $args) {
+function ciniki_petadoptions_hooks_uiSettings(&$ciniki, $tnid, $args) {
     //
     // Setup the default response
     //
@@ -22,7 +22,7 @@ function ciniki_petadoptions_hooks_uiSettings(&$ciniki, $business_id, $args) {
     //
     // Check permissions for what menu items should be available
     //
-    if( isset($ciniki['business']['modules']['ciniki.petadoptions'])
+    if( isset($ciniki['tenant']['modules']['ciniki.petadoptions'])
         && (isset($args['permissions']['owners'])
             || isset($args['permissions']['employees'])
             || isset($args['permissions']['resellers'])

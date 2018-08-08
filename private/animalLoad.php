@@ -30,7 +30,8 @@ function ciniki_petadoptions_animalLoad($ciniki, $tnid, $animal_id, $args) {
         . "ciniki_petadoption_animals.location, "
         . "ciniki_petadoption_animals.primary_image_id, "
         . "ciniki_petadoption_animals.synopsis, "
-        . "ciniki_petadoption_animals.description "
+        . "ciniki_petadoption_animals.description, "
+        . "ciniki_petadoption_animals.youtube_id "
         . "FROM ciniki_petadoption_animals "
         . "WHERE ciniki_petadoption_animals.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "";

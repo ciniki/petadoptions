@@ -1,0 +1,5 @@
+#
+# Add youtube id
+#
+ALTER TABLE ciniki_petadoption_animals ADD COLUMN youtube_id varchar(128) not null AFTER description;
+ALTER TABLE ciniki_petadoption_animals COMMENT='v1.02';

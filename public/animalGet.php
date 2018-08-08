@@ -73,6 +73,7 @@ function ciniki_petadoptions_animalGet($ciniki) {
             'primary_image_id'=>'0',
             'synopsis'=>'',
             'description'=>'',
+            'youtube_id'=>'',
         );
     }
 

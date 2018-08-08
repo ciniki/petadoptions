@@ -170,6 +170,17 @@ function ciniki_petadoptions_web_processRequest(&$ciniki, $settings, $tnid, $arg
             }
 
             //
+            // Add the youtube video if any
+            //
+            if( isset($animal['youtube_id']) && $animal['youtube_id'] != '' ) {
+                $page['blocks'][] = array('type'=>'content', 'html'=>"<div class='embed-video'>"
+                    . "<div class='embed-video-wrap'>"
+                    . "<iframe src='https://www.youtube.com/embed/" . $animal['youtube_id'] . "' frameborder='0' allowfullscreen></iframe>"
+                    . "</div>"
+                    . "</div>");
+            }
+
+            //
             // Add prices, links, files, etc to the page blocks
             //
             if( !isset($settings['page-petadoptions-share-buttons']) || $settings['page-petadoptions-share-buttons'] == 'yes' ) {

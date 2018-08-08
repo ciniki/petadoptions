@@ -104,6 +104,7 @@ function ciniki_petadoptions_main() {
             'color':{'label':'Color', 'type':'text', 'livesearch':'yes', 'livesearchempty':'yes'},
             'size':{'label':'Size', 'type':'text', 'livesearch':'yes', 'livesearchempty':'yes'},
             'location':{'label':'Location', 'type':'text'},
+            'youtube_id':{'label':'Youtube ID', 'type':'text'},
             }},
         '_synopsis':{'label':'Synopsis', 'fields':{
             'synopsis':{'label':'', 'hidelabel':'yes', 'type':'textarea', 'size':'small'},

@@ -31,6 +31,7 @@ function ciniki_petadoptions_animalUpdate(&$ciniki) {
         'primary_image_id'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Image'),
         'synopsis'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Synopsis'),
         'description'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Description'),
+        'youtube_id'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'YouTube Video'),
         ));
     if( $rc['stat'] != 'ok' ) {
         return $rc;

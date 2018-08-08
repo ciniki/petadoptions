@@ -36,6 +36,7 @@ function ciniki_petadoptions_objects(&$ciniki) {
             'primary_image_id'=>array('name'=>'Image', 'ref'=>'ciniki.images.image', 'default'=>'0'),
             'synopsis'=>array('name'=>'Synopsis', 'default'=>''),
             'description'=>array('name'=>'Description', 'default'=>''),
+            'youtube_id'=>array('name'=>'Youtube', 'default'=>''),
             ),
         'history_table'=>'ciniki_petadoptions_history',
         );

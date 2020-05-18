@@ -225,15 +225,15 @@ function ciniki_petadoptions_main() {
         }
     }
     this.animal.remove = function() {
-        if( confirm('Are you sure you want to remove animal?') ) {
-            M.api.getJSONCb('ciniki.petadoptions.animalDelete', {'tnid':M.curTenantID, 'animal_id':this.animal_id}, function(rsp) {
+        M.confirm('Are you sure you want to remove animal?',null,function() {
+            M.api.getJSONCb('ciniki.petadoptions.animalDelete', {'tnid':M.curTenantID, 'animal_id':M.ciniki_petadoptions_main.animal.animal_id}, function(rsp) {
                 if( rsp.stat != 'ok' ) {
                     M.api.err(rsp);
                     return false;
                 }
                 M.ciniki_petadoptions_main.animal.close();
             });
-        }
+        });
     }
     this.animal.nextButtonFn = function() {
         if( this.nplist != null && this.nplist.indexOf('' + this.animal_id) < (this.nplist.length - 1) ) {
@@ -338,15 +338,15 @@ function ciniki_petadoptions_main() {
         }
     };
     this.image.remove = function() {
-        if( confirm('Are you sure you want to delete this image?') ) {
-            M.api.getJSONCb('ciniki.petadoptions.imageDelete', {'tnid':M.curTenantID, 'animal_image_id':this.animal_image_id}, function(rsp) {
+        M.confirm('Are you sure you want to delete this image?',null,function() {
+            M.api.getJSONCb('ciniki.petadoptions.imageDelete', {'tnid':M.curTenantID, 'animal_image_id':M.ciniki_petadoptions_main.image.animal_image_id}, function(rsp) {
                 if( rsp.stat != 'ok' ) {
                     M.api.err(rsp);
                     return false;
                 }
                 M.ciniki_petadoptions_main.image.close();
             });
-        }
+        });
     };
     this.image.addButton('save', 'Save', 'M.ciniki_petadoptions_main.image.save();');
     this.image.addClose('Cancel');
@@ -368,7 +368,7 @@ function ciniki_petadoptions_main() {
         //
         var ac = M.createContainer(ap, 'ciniki_petadoptions_main', 'yes');
         if( ac == null ) {
-            alert('App Error');
+            M.alert('App Error');
             return false;
         }
         
